@@ -8,8 +8,6 @@ export const Orders = () => {
       .then((data) => setData(data));
   }, []);
 
-  console.log(data);
-
   return (
     <>
       <h1>Meus pedidos</h1>

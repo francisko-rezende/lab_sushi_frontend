@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { priceFormat } from "../../utils/priceFormat";
 import ProductCard from "../../components/ProductCard";
-import {productsAction, productsActions} from "../../actions/product.action";
+import { productsAction, productsActions } from "../../actions/product.action";
 import { toast } from "react-toastify";
+import { SearchContext } from "../../contexts/SearchContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const { searchedTerm } = useContext(SearchContext)
 
   const navigate = useNavigate()
 
@@ -30,11 +32,14 @@ const Home = () => {
   }, [])
 
 
+  const filteredProducts = products.filter(({ name }) => name.includes(searchedTerm))
+
+
   return (
     <div>
       <div className="main-container">
         <div data-testid="products-list" className="products-list">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard product={product}
               onClick={() => handleNavigateToDetails(product)}
               key={product.id}

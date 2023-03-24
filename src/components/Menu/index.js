@@ -1,18 +1,20 @@
 import React, { useContext, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
+import { SearchContext } from "../../contexts/SearchContext";
 
 import Input from '../Input'
 
 const Menu = () => {
 
   const { cart } = useContext(CartContext)
+  const { searchedTerm, setSearchedTerm } = useContext(SearchContext)
   const navigate = useNavigate()
+  const location = useLocation();
 
-  const [text, setText] = useState('')
 
-  const handleChangeSearchInput = (e) => setText(e.target.value)
+  const handleChangeSearchInput = (e) => setSearchedTerm(e.target.value)
 
   return (
 
@@ -20,12 +22,12 @@ const Menu = () => {
       <div className="menu-content">
         <h1>Sushi Lab</h1>
 
-        <Input
-          value={text}
+        {location.pathname === '/' && <Input
+          value={searchedTerm}
           onChange={handleChangeSearchInput}
           placeholder="O que deseja ?"
           name="text"
-        />
+        />}
 
         <ul>
           <li onClick={() => navigate('/cart')} data-testid="cart-link">
